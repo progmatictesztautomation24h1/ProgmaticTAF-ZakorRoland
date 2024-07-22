@@ -15,7 +15,7 @@ public class FormyTests extends DriverManager {
         Assert.assertTrue(homePage.isHomePageLoaded());
     }
 
-    @Test(priority = 2, groups = {"regression"})
+    @Test(priority = 2, groups = {"regression"}, description = "TC02: After a page load, click on Autocomplete menuitem and fill out the form. Navigate back to home page.")
     public static void autocompleteTest() {
         driver.get("https://formy-project.herokuapp.com");
 

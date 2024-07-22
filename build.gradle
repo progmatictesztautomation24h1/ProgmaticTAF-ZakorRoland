@@ -32,7 +32,6 @@ task regressionTests(type: Test){
         }
     }
 }
-
 task criticalTests(type: Test){
     def groups = System.getProperty("groups","critical")
     useTestNG(){
