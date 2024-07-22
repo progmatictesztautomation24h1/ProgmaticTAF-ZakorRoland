@@ -12,7 +12,7 @@ public class DriverManager {
     protected static WebDriver driver;
     protected static WebDriverWait wait;
 
-    @BeforeMethod(groups = {"regression", "critical"})
+    @BeforeMethod(alwaysRun = true)
     protected static void setup() {
         // Teszt setup/beállítás
         driver = new FirefoxDriver();
@@ -22,7 +22,7 @@ public class DriverManager {
         wait = new WebDriverWait(driver, Duration.ofSeconds(30));  //explicit várakozás timeout-ja, egy adott UI element adott eseményére várakoztatok
     }
 
-    @AfterMethod(groups = {"regression", "critical"})
+    @AfterMethod(alwaysRun = true)
     protected static void tearDown() throws InterruptedException {
         Thread.sleep(1000);
         // Teszt bezárása/takarítás

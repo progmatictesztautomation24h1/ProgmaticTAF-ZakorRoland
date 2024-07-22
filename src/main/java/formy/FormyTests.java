@@ -6,8 +6,9 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class FormyTests extends DriverManager {
+    //https://testng.org/annotations.html annotáció attribútumok leírásához
 
-    @Test(priority = 1, groups = {"regression", "critical"})
+    @Test(enabled = true, alwaysRun = true, priority = 1, groups = {"regression", "critical"}, description = "TC01: Check if page loaded properly or not.")
     public static void pageLoadedTest() {
         driver.get("https://formy-project.herokuapp.com");
 
@@ -15,7 +16,7 @@ public class FormyTests extends DriverManager {
         Assert.assertTrue(homePage.isHomePageLoaded());
     }
 
-    @Test(priority = 2, groups = {"regression"}, description = "TC02: After a page load, click on Autocomplete menuitem and fill out the form. Navigate back to home page.")
+    @Test(enabled = false, priority = 2, groups = {"regression"}, description = "TC02: After a page load, click on Autocomplete menuitem and fill out the form. Navigate back to home page.")
     public static void autocompleteTest() {
         driver.get("https://formy-project.herokuapp.com");
 
