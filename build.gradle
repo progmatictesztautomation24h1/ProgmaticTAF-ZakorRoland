@@ -17,5 +17,18 @@ dependencies {
 }
 
 test {
-    useJUnitPlatform()
+    useTestNG()
+}
+
+task regressionTests(type: Test){
+    def groups = System.getProperty("groups","regression")
+    useTestNG(){
+        includeGroups groups
+    }
+    sourceSets {
+        test {
+            java.srcDir 'src/main/java'
+            resources.srcDir 'src/main/resources'
+        }
+    }
 }

@@ -7,7 +7,7 @@ import org.testng.annotations.Test;
 
 public class FormyTests extends DriverManager {
 
-    @Test
+    @Test(priority = 1, groups = {"regression", "critical"})
     public static void pageLoadedTest() {
         driver.get("https://formy-project.herokuapp.com");
 
@@ -15,7 +15,7 @@ public class FormyTests extends DriverManager {
         Assert.assertTrue(homePage.isHomePageLoaded());
     }
 
-    @Test
+    @Test(priority = 2, groups = {"regression"})
     public static void autocompleteTest() {
         driver.get("https://formy-project.herokuapp.com");
 
@@ -39,7 +39,7 @@ public class FormyTests extends DriverManager {
         Assert.assertEquals(driver.getCurrentUrl(), "https://formy-project.herokuapp.com/");
     }
 
-    @Test
+    @Test(priority = 3, groups = {"regression"})  //több priority 3 esetén véletlenszerűen válaszja az egyiket, hogy melyiket futtasa hamarabb
     public static void buttonTest() {
         driver.get("https://formy-project.herokuapp.com");
 
@@ -57,7 +57,7 @@ public class FormyTests extends DriverManager {
         Assert.assertEquals(driver.getCurrentUrl(), "https://formy-project.herokuapp.com/");
     }
 
-    @Test
+    @Test(priority = 3, groups = {"regression"})
     public static void checkboxTest() {
         driver.get("https://formy-project.herokuapp.com");
 
@@ -75,7 +75,7 @@ public class FormyTests extends DriverManager {
         Assert.assertEquals(driver.getCurrentUrl(), "https://formy-project.herokuapp.com/");
     }
 
-    @Test
+    @Test(priority = 4, groups = {"regression"})
     public static void dropdownAndDatePickerTest() throws InterruptedException {
         driver.get("https://formy-project.herokuapp.com");
 
