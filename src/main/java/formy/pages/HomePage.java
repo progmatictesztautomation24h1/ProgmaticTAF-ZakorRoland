@@ -21,11 +21,13 @@ public class HomePage {
     }
 
     public boolean isHomePageLoaded() {
+        System.out.println("Check HomePage loaded or not.");
         WebElement title = driver.findElement(titleBy);
         return title.isDisplayed();
     }
 
     public void clickAutocompleteMenu() {
+        System.out.println("Click Autocomplete option from the Menu.");
         WebElement autocompleteMenu = driver.findElement(autocompleteMenuBy);
         autocompleteMenu.click();
     }

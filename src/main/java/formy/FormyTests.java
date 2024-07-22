@@ -16,7 +16,7 @@ public class FormyTests extends DriverManager {
         Assert.assertTrue(homePage.isHomePageLoaded());
     }
 
-    @Test(enabled = false, priority = 2, groups = {"regression"}, description = "TC02: After a page load, click on Autocomplete menuitem and fill out the form. Navigate back to home page.")
+    @Test(enabled = true, priority = 2, groups = {"regression"}, description = "TC02: After a page load, click on Autocomplete menuitem and fill out the form. Navigate back to home page.")
     public static void autocompleteTest() {
         driver.get("https://formy-project.herokuapp.com");
 
@@ -40,7 +40,7 @@ public class FormyTests extends DriverManager {
         Assert.assertEquals(driver.getCurrentUrl(), "https://formy-project.herokuapp.com/");
     }
 
-    @Test(priority = 3, groups = {"regression"})  //több priority 3 esetén véletlenszerűen válaszja az egyiket, hogy melyiket futtasa hamarabb
+    @Test(enabled = false, priority = 3, groups = {"regression"})  //több priority 3 esetén véletlenszerűen válaszja az egyiket, hogy melyiket futtasa hamarabb
     public static void buttonTest() {
         driver.get("https://formy-project.herokuapp.com");
 

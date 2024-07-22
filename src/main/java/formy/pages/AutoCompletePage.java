@@ -21,46 +21,55 @@ public class AutoCompletePage {
     }
 
     public boolean isAutoCompletePageLoaded() {
+        System.out.println("Check Autocomplete page loaded or not.");
         WebElement titleText = driver.findElement(titleBy);
         return titleText.isDisplayed();
     }
 
     public void fillAddress(String address) {
+        System.out.println("Fill address input with " + address);
         WebElement addressInput = driver.findElement(addressInputBy);
         addressInput.sendKeys(address);
     }
 
     public void fillStreet(String street) {
+        System.out.println("Fill street input with " + street);
         WebElement addressInput = driver.findElement(streetInputBy);
         addressInput.sendKeys(street);
     }
 
     public void fillStreet2(String street) {
+        System.out.println("Fill street2 input with: " + street);
         WebElement addressInput = driver.findElement(streetInput2By);
         addressInput.sendKeys(street);
     }
 
     public void fillCity(String city) {
+        System.out.println("Fill city field with " + city);
         WebElement addressInput = driver.findElement(cityInputBy);
         addressInput.sendKeys(city);
     }
 
     public void fillState(String state) {
+        System.out.println("Fill state field with " + state);
         WebElement addressInput = driver.findElement(stateInputBy);
         addressInput.sendKeys(state);
     }
 
     public void fillZip(String zip) {
+        System.out.println("Fill zip field with " + zip);
         WebElement addressInput = driver.findElement(zipInputBy);
         addressInput.sendKeys(zip);
     }
 
     public void fillCountry(String country) {
+        System.out.println("Fill country field with " + country);
         WebElement addressInput = driver.findElement(countryInputBy);
         addressInput.sendKeys(country);
     }
 
-    public void clickLogoToNavigateHome(){
+    public void clickLogoToNavigateHome() {
+        System.out.println("Click on Logo to navigate home");
         WebElement logo = driver.findElement(logoBy);
         logo.click();
     }
