@@ -1,9 +1,15 @@
 package formy;
 
 import core.DriverManager;
+import core.FileReader;
 import formy.pages.*;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class FormyTests extends DriverManager {
     //https://testng.org/annotations.html annotáció attribútumok leírásához
@@ -16,8 +22,36 @@ public class FormyTests extends DriverManager {
         Assert.assertTrue(homePage.isHomePageLoaded());
     }
 
-    @Test(enabled = true, priority = 2, groups = {"regression"}, description = "TC02: After a page load, click on Autocomplete menuitem and fill out the form. Navigate back to home page.")
-    public static void autocompleteTest() {
+
+    @DataProvider(name = "formDataProviderLocal")
+    public static String[][] formDataProviderLocal()  {
+        String[][] data = {{"5500 Gyomaendrőd Álom u 13", "Álom u", "12", "Gyomaendrőd", "Békés", "5500", "Hungary"},
+                {"2151 Fót Aszfalt ú 30", "Aszfalt u", "30", "Fót", "Pest", "2151", "Hungary"}};
+        return data;
+    }
+
+    @DataProvider(name = "formDataProviderFromFile")
+    public static Object[][] formDataProviderFromFile()  {
+        List<String> rawData = FileReader.readDataFromFile("formData.csv");
+        List<List<String>> data = new ArrayList<>();
+
+        for (int i = 0; i < rawData.size(); i++) {
+            List<String> tmp = new ArrayList<>();
+            tmp.addAll(Arrays.asList(rawData.get(i).split(", ")));
+            data.add(tmp);
+        }
+
+        Object[][] dataAsArray = new Object[data.size()][data.get(0).size()];
+
+        for (int i = 0; i < data.size(); i++) {
+            dataAsArray[i] = data.get(i).toArray();
+        }
+
+        return dataAsArray;
+    }
+
+    @Test(dataProvider = "formDataProviderFromFile", dependsOnMethods = {"pageLoadedTest"}, enabled = true, priority = 2, groups = {"regression"}, description = "TC02: After a page load, click on Autocomplete menuitem and fill out the form. Navigate back to home page.")
+    public static void autocompleteTest(String address, String street, String street2, String city, String state, String zip, String country) {
         driver.get("https://formy-project.herokuapp.com");
 
         HomePage homePage = new HomePage(driver);
@@ -26,13 +60,13 @@ public class FormyTests extends DriverManager {
 
         AutoCompletePage autoCompletePage = new AutoCompletePage(driver);
         Assert.assertTrue(autoCompletePage.isAutoCompletePageLoaded());
-        autoCompletePage.fillAddress("5500 Gyomaendrőd Álom utca 12");
-        autoCompletePage.fillStreet("Álom utca");
-        autoCompletePage.fillStreet2("12");
-        autoCompletePage.fillCity("Gyomaendrőd");
-        autoCompletePage.fillState("Bekes");
-        autoCompletePage.fillZip("5500");
-        autoCompletePage.fillCountry("Hungary");
+        autoCompletePage.fillAddress(address);
+        autoCompletePage.fillStreet(street);
+        autoCompletePage.fillStreet2(street2);
+        autoCompletePage.fillCity(city);
+        autoCompletePage.fillState(state);
+        autoCompletePage.fillZip(zip);
+        autoCompletePage.fillCountry(country);
         autoCompletePage.clickLogoToNavigateHome();
 
         homePage = new HomePage(driver);
