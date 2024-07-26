@@ -50,7 +50,7 @@ public class FormyTests extends DriverManager {
         return dataAsArray;
     }
 
-    @Test(dataProvider = "formDataProviderFromFile", dependsOnMethods = {"pageLoadedTest"}, enabled = true, priority = 2, groups = {"regression"}, description = "TC02: After a page load, click on Autocomplete menuitem and fill out the form. Navigate back to home page.")
+    @Test(dataProvider = "formDataProviderFromFile", enabled = true, priority = 2, groups = {"regression"}, description = "TC02: After a page load, click on Autocomplete menuitem and fill out the form. Navigate back to home page.")
     public static void autocompleteTest(String address, String street, String street2, String city, String state, String zip, String country) {
         driver.get("https://formy-project.herokuapp.com");
 
@@ -116,6 +116,68 @@ public class FormyTests extends DriverManager {
 
         HomePage homePage = new HomePage(driver);
         Assert.assertTrue(homePage.isHomePageLoaded());
+        homePage.clickDropdownMenu();
+
+        DropdownPage dropdownPage = new DropdownPage(driver, wait);
+        Assert.assertTrue(dropdownPage.isDropdownPageLoaded());
+        //dropdownPage.selectDatePickerFromDropdown();  //version 1
+        dropdownPage.selectValueFromDropdown("Datepicker");  //version 2
+
+        DatePickerPage datePickerPage = new DatePickerPage(driver);
+        Assert.assertTrue(datePickerPage.isDatePickerPageLoaded());
+        datePickerPage.fillDatePickerInput("07/17/2024");
+        datePickerPage.clickLogoToNavigateHome();
+
+        homePage = new HomePage(driver);
+        Assert.assertTrue(homePage.isHomePageLoaded()); //StaleElementReferenceException mert megváltozott a java-ban tárolt oldal a böngészőben látott oldalhoz képest. Ezért újra kell példányosítani ha elnavigáltunk egy oldalról majd visszatérünk rá.
+        Assert.assertEquals(driver.getCurrentUrl(), "https://formy-project.herokuapp.com/");
+    }
+
+    @Test(enabled = true, alwaysRun = true, priority = 100, groups = {"e2e"}, description = "TC100: End to end test")
+    public static void endToEndTest() {
+        driver.get("https://formy-project.herokuapp.com");
+
+        HomePage homePage = new HomePage(driver);
+        Assert.assertTrue(homePage.isHomePageLoaded());
+        homePage.clickAutocompleteMenu();
+
+        AutoCompletePage autoCompletePage = new AutoCompletePage(driver);
+        Assert.assertTrue(autoCompletePage.isAutoCompletePageLoaded());
+        autoCompletePage.fillAddress("5500 Gyomaendrőd Álom u 13");
+        autoCompletePage.fillStreet("Álom u");
+        autoCompletePage.fillStreet2("12");
+        autoCompletePage.fillCity("Gyomaendrőd");
+        autoCompletePage.fillState("Békés");
+        autoCompletePage.fillZip("5500");
+        autoCompletePage.fillCountry("Hungary");
+        autoCompletePage.clickLogoToNavigateHome();
+
+        homePage = new HomePage(driver);
+        Assert.assertTrue(homePage.isHomePageLoaded());//StaleElementReferenceException mert megváltozott a java-ban tárolt oldal a böngészőben látott oldalhoz képest. Ezért újra kell példányosítani ha elnavigáltunk egy oldalról majd visszatérünk rá.
+        Assert.assertEquals(driver.getCurrentUrl(), "https://formy-project.herokuapp.com/");
+
+        homePage.clickButtonMenu();
+
+        ButtonPage buttonPage = new ButtonPage(driver);
+        Assert.assertTrue(buttonPage.isButtonPageLoaded());
+        buttonPage.clickMiddleButton();
+        buttonPage.clickLogoToNavigateHome();
+
+        homePage = new HomePage(driver);
+        Assert.assertTrue(homePage.isHomePageLoaded()); //StaleElementReferenceException mert megváltozott a java-ban tárolt oldal a böngészőben látott oldalhoz képest. Ezért újra kell példányosítani ha elnavigáltunk egy oldalról majd visszatérünk rá.
+        Assert.assertEquals(driver.getCurrentUrl(), "https://formy-project.herokuapp.com/");
+
+        homePage.clickCheckboxMenu();
+
+        CheckboxPage checkboxPage = new CheckboxPage(driver);
+        Assert.assertTrue(checkboxPage.isCheckboxPageLoaded());
+        checkboxPage.clickCheckbox3Checkbox();
+        checkboxPage.clickLogoToNavigateHome();
+
+        homePage = new HomePage(driver);
+        Assert.assertTrue(homePage.isHomePageLoaded()); //StaleElementReferenceException mert megváltozott a java-ban tárolt oldal a böngészőben látott oldalhoz képest. Ezért újra kell példányosítani ha elnavigáltunk egy oldalról majd visszatérünk rá.
+        Assert.assertEquals(driver.getCurrentUrl(), "https://formy-project.herokuapp.com/");
+
         homePage.clickDropdownMenu();
 
         DropdownPage dropdownPage = new DropdownPage(driver, wait);
