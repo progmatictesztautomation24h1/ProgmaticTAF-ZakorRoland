@@ -22,9 +22,9 @@ public class FactorialPage {
     private boolean isFactorialPageLoaded() {
         System.out.println("Check FactorialPage page loaded or not.");
 
-     // A másik return utasítással egyenértékű ez itt
-     // WebElement calculateButton = driver.findElement(calculateButtonLocator);
-     // return calculateButton.isDisplayed();
+        // A másik return utasítással egyenértékű ez itt
+        // WebElement calculateButton = driver.findElement(calculateButtonLocator);
+        // return calculateButton.isDisplayed();
         return driver.findElement(calculateButtonLocator).isDisplayed();
     }
 
