@@ -1,24 +1,83 @@
 package api;
 
 import static io.restassured.RestAssured.*;
+import static org.hamcrest.Matchers.*;
+
+import org.hamcrest.Matchers;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class PetStoreApiTest {
     @Test
-    public void getPetByIdFound() {
+    public void getPetById() {
         given()
-        .when()
-                .get("https://petstore.swagger.io/v2/pet/9222968140497183222")
-        .then()
+                .when()
+                .get("https://petstore.swagger.io/v2/pet/9222968140497184209")
+                .then()
                 .assertThat().statusCode(200);
+    }
+
+    @Test
+    public void getPetByIdHasBody() {
+
+        String responseBody = given()
+                .when()
+                .get("https://petstore.swagger.io/v2/pet/9222968140497184209")
+                .then()
+                .assertThat().statusCode(200)
+                .extract().body().asString();
+
+        Assert.assertFalse(responseBody.isEmpty());
+    }
+
+    @Test
+    public void getPetByIdHasBody2() {
+        given()
+                .when()
+                .get("https://petstore.swagger.io/v2/pet/9222968140497184334")
+                .then()
+                .assertThat().statusCode(200)
+                .assertThat().body("", not(empty()));
+
+    }
+
+    @Test
+    public void getPetByIdHasBodyWithAGoodStructure() {
+        given()
+                .when()
+                .get("https://petstore.swagger.io/v2/pet/9223372016900017299")
+                .then()
+                .assertThat().statusCode(200)
+                .assertThat().body("id", not(emptyOrNullString()))
+                .assertThat().body("category", not(emptyOrNullString()))
+                .assertThat().body("name", not(emptyOrNullString()))
+                .assertThat().body("photoUrls", not(emptyOrNullString()))
+                .assertThat().body("tags", not(emptyOrNullString()))
+                .assertThat().body("status", not(emptyOrNullString()));
+    }
+
+    @Test
+    public void getPetByIdHasBodyWithAGoodStructureAndTypes() {
+        given()
+                .when()
+                .get("https://petstore.swagger.io/v2/pet/9223372016900017482")
+                .then()
+                .assertThat().statusCode(200)
+                .assertThat().body("id", instanceOf(Long.class))
+                .assertThat().body("category", not(emptyOrNullString()))
+                .assertThat().body("name", instanceOf(String.class))
+                .assertThat().body("photoUrls", instanceOf(String.class)).assertThat()
+                .body("photoUrls", startsWith("http://"))
+                .assertThat().body("tags", not(emptyOrNullString()))
+                .assertThat().body("status", not(emptyOrNullString()));
     }
 
     @Test
     public void getPetByIdNotFound() {
         given()
-        .when()
+                .when()
                 .get("https://petstore.swagger.io/v2/pet/92")
-        .then()
+                .then()
                 .assertThat().statusCode(404);
     }
 
@@ -26,9 +85,9 @@ public class PetStoreApiTest {
     public void getAllAvailablePet() {
         given()
                 .param("status", "available")
-        .when()
+                .when()
                 .get("https://petstore.swagger.io/v2/pet/findByStatus")
-        .then()
+                .then()
                 .assertThat().statusCode(200);
     }
 
@@ -56,9 +115,9 @@ public class PetStoreApiTest {
         given()
                 .body(postBody)
                 .header("Content-Type", "application/json")
-        .when()
+                .when()
                 .post("https://petstore.swagger.io/v2/pet")
-        .then()
+                .then()
                 .assertThat().statusCode(200);
     }
 
@@ -86,9 +145,9 @@ public class PetStoreApiTest {
         given()
                 .body(postBody)
                 .header("Content-Type", "application/json")
-        .when()
+                .when()
                 .put("https://petstore.swagger.io/v2/pet")
-        .then()
+                .then()
                 .assertThat().statusCode(200);
     }
 
@@ -102,9 +161,9 @@ public class PetStoreApiTest {
         given()
                 .body(postBody)
                 .header("Content-Type", "application/json")
-        .when()
+                .when()
                 .patch("https://petstore.swagger.io/v2/pet")
-       .then()
+                .then()
                 .assertThat().statusCode(405);
     }
 
