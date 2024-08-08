@@ -3,9 +3,9 @@ package api;
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
 
-import org.hamcrest.Matchers;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
 
 public class PetStoreApiTest {
     @Test
@@ -57,19 +57,20 @@ public class PetStoreApiTest {
     }
 
     @Test
-    public void getPetByIdHasBodyWithAGoodStructureAndTypes() {
+    public void getPetByIdHasBodyWithAGoodStructureAndTypesAndValues() {
         given()
                 .when()
-                .get("https://petstore.swagger.io/v2/pet/9223372016900017482")
+                .get("https://petstore.swagger.io/v2/pet/9223372016900018416")
                 .then()
                 .assertThat().statusCode(200)
                 .assertThat().body("id", instanceOf(Long.class))
                 .assertThat().body("category", not(emptyOrNullString()))
                 .assertThat().body("name", instanceOf(String.class))
-                .assertThat().body("photoUrls", instanceOf(String.class)).assertThat()
-                .body("photoUrls", startsWith("http://"))
-                .assertThat().body("tags", not(emptyOrNullString()))
-                .assertThat().body("status", not(emptyOrNullString()));
+                .assertThat().body("photoUrls", iterableWithSize(2))
+                .assertThat().body("photoUrls[0]", instanceOf(String.class))
+                .assertThat().body("photoUrls[0]", anyOf(startsWith("http://"), startsWith("https://")))
+                .assertThat().body("tags[0].name", equalTo("gvhbn"))
+                .assertThat().body("status", equalTo("available") );
     }
 
     @Test
